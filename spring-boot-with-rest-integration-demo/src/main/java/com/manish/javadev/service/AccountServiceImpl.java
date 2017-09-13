@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.manish.javadev.dao.AccountDao;
-import com.manish.javadev.model.Account;
+import com.manish.javadev.model.AccountEntity;
 
 /**
  * @author Manish
@@ -23,30 +23,30 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false, timeout = 100, rollbackFor = Exception.class)
-	public Account createAccount(Account account) {
-		Account acccountResult = accountDao.save(account);
+	public AccountEntity createAccount(AccountEntity accountEntity) {
+		AccountEntity acccountResult = accountDao.save(accountEntity);
 		return acccountResult;
 	}
 
 	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false, timeout = 100, rollbackFor = Exception.class)
 	public void fundTransfer(Long accountFrom, Long accountTo, Double amount) {
-		Account account = accountDao.findOne(accountFrom);
-		account.setAmount(account.getAmount() - amount);
-		accountDao.save(account);
-		account = accountDao.findOne(accountTo);
-		account.setAmount(account.getAmount() + amount);
-		accountDao.save(account);
+		AccountEntity accountEntity = accountDao.findOne(accountFrom);
+		accountEntity.setAmount(accountEntity.getAmount() - amount);
+		accountDao.save(accountEntity);
+		accountEntity = accountDao.findOne(accountTo);
+		accountEntity.setAmount(accountEntity.getAmount() + amount);
+		accountDao.save(accountEntity);
 	}
 
 	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false, timeout = 100, rollbackFor = Exception.class)
-	public Account depositAmount(Long accountNumber, Double amount) {
-		Account account = accountDao.findOne(accountNumber);
-		account.setAmount(account.getAmount() + amount);
-		return accountDao.save(account);
+	public AccountEntity depositAmount(Long accountNumber, Double amount) {
+		AccountEntity accountEntity = accountDao.findOne(accountNumber);
+		accountEntity.setAmount(accountEntity.getAmount() + amount);
+		return accountDao.save(accountEntity);
 	}
 
 	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false, timeout = 100, rollbackFor = Exception.class)
-	public Account findAccount(Long accountNumber) {
+	public AccountEntity findAccount(Long accountNumber) {
 		return accountDao.findOne(accountNumber);
 	}
 

@@ -12,11 +12,11 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "ACCOUNT")
-public class Account {
+@Table(name = "TBL_ACCOUNT")
+public class AccountEntity {
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ACC_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long accountNumber;
 
@@ -29,11 +29,11 @@ public class Account {
 	@Column(name = "AMOUNT")
 	private Double amount;
 
-	public Account() {
+	public AccountEntity() {
 		super();
 	}
 
-	public Account(String accountType, String accountHolderName, Double amount) {
+	public AccountEntity(String accountType, String accountHolderName, Double amount) {
 		super();
 		this.accountType = accountType;
 		this.accountHolderName = accountHolderName;

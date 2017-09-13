@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.manish.javadev.dao.AccountDao;
-import com.manish.javadev.model.Account;
+import com.manish.javadev.model.AccountEntity;
 import com.manish.javadev.service.AccountService;
 
 /**
@@ -36,12 +36,12 @@ public class SpringBootApplicationDemo implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println("accountService = " + accountService.getClass().getSimpleName());
 
-		Account account = new Account("Saving Account", "Manish", new Double(15000));
-		accountService.createAccount(account);
+		AccountEntity accountEntity = new AccountEntity("Saving Account", "Manish", new Double(15000));
+		accountService.createAccount(accountEntity);
 
 		System.out.println("===================");
-		account = accountService.findAccount(new Long(1));
-		System.out.println("After Loading The Account info =" + account);
+		accountEntity = accountService.findAccount(new Long(1));
+		System.out.println("After Loading The Account info =" + accountEntity);
 		System.out.println("Done");
 
 	}

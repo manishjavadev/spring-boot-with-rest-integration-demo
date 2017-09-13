@@ -5,19 +5,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.manish.javadev.model.Account;
+import com.manish.javadev.model.AccountEntity;
 import com.manish.javadev.service.AccountService;
 
 /**
  * @author Manish
+ * 
+ *         http://localhost:8080/api/ping
+ * 
+ *         http://localhost:8080/api/account/2
+ * 
+ *         http://localhost:8080/api/account
  *
  */
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/api")
 public class AccountController {
 	@Autowired
 	private AccountService accountService;
@@ -29,20 +36,25 @@ public class AccountController {
 
 	}
 
-	@RequestMapping(value = "/createaccount/{accountType}/{accountHolderName}/{amount}", method = RequestMethod.POST, produces = {
-			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Account> createAccount(@PathVariable("accountType") String accountType,
-			@PathVariable("accountHolderName") String accountHolderName, @PathVariable("amount") Double amount) {
-		Account account = new Account(accountType, accountHolderName, amount == null ? null : amount);
-		account = accountService.createAccount(account);
-		return new ResponseEntity<Account>(account, HttpStatus.CREATED);
+	@RequestMapping(value = "/account", method = RequestMethod.POST, produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<AccountEntity> createAccount(@RequestBody AccountEntity accountEntity) {
+		accountEntity = accountService.createAccount(accountEntity);
+		return new ResponseEntity<AccountEntity>(accountEntity, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/findaccount/{accountNumber}", method = RequestMethod.GET, produces = {
+	@RequestMapping(value = "/account", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<AccountEntity> updateAccount(@RequestBody AccountEntity accountEntity) {
+		accountEntity = accountService.createAccount(accountEntity);
+		return new ResponseEntity<AccountEntity>(accountEntity, HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Account> findAccount(@PathVariable("accountNumber") Long accountNumber) {
-		Account account = accountService.findAccount(new Long(accountNumber));
-		return new ResponseEntity<Account>(account, HttpStatus.OK);
+	public ResponseEntity<AccountEntity> findAccount(@PathVariable("accountNumber") Long accountNumber) {
+		AccountEntity accountEntity = accountService.findAccount(new Long(accountNumber));
+		return new ResponseEntity<AccountEntity>(accountEntity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/fundtransfer/{accountNumberfrom}/{accountNumberto}/{amount}", method = RequestMethod.PUT, produces = {
@@ -53,12 +65,12 @@ public class AccountController {
 		return new ResponseEntity<String>("Fund Transfer Successfully", HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/depositammount/{accountNumber}/{amount}", method = RequestMethod.PUT, produces = {
+	@RequestMapping(value = "/deposit/{accountNumber}/{amount}", method = RequestMethod.PUT, produces = {
 			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Account> depositAmount(@PathVariable("accountNumber") Long accountNumber,
+	public ResponseEntity<AccountEntity> depositAmount(@PathVariable("accountNumber") Long accountNumber,
 			@PathVariable("amount") Double amount) {
-		Account account = accountService.depositAmount(new Long(accountNumber), new Double(amount));
-		return new ResponseEntity<Account>(account, HttpStatus.OK);
+		AccountEntity accountEntity = accountService.depositAmount(new Long(accountNumber), new Double(amount));
+		return new ResponseEntity<AccountEntity>(accountEntity, HttpStatus.OK);
 	}
 
 }

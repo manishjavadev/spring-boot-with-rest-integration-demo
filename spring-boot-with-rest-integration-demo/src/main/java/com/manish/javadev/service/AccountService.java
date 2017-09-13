@@ -1,17 +1,17 @@
 package com.manish.javadev.service;
 
-import com.manish.javadev.model.Account;
+import com.manish.javadev.model.AccountEntity;
 
 /**
  * @author Manish
  *
  */
 public interface AccountService {
-	Account createAccount(Account account);
+	AccountEntity createAccount(AccountEntity accountEntity);
 
-	Account findAccount(Long accountNumber);
+	AccountEntity findAccount(Long accountNumber);
 
-	public Account depositAmount(Long accountNumber, Double amount);
+	public AccountEntity depositAmount(Long accountNumber, Double amount);
 
 	void fundTransfer(Long accountFrom, Long accountTo, Double amount);
 }
