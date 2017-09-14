@@ -10,6 +10,6 @@ import com.manish.javadev.model.AccountEntity;
  *
  */
 @Repository
-public interface AccountDao extends CrudRepository<AccountEntity, Long> {
+public interface AccountRepository extends CrudRepository<AccountEntity, Long> {
 
 }

@@ -1,5 +1,8 @@
 package com.manish.javadev.model;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +16,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "TBL_ACCOUNT")
-public class AccountEntity {
+public class AccountEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "ACC_ID")
@@ -28,6 +33,9 @@ public class AccountEntity {
 
 	@Column(name = "AMOUNT")
 	private Double amount;
+
+	@Column(name = "ACCOUNT_STAR_TDATE")
+	private Date startDate;
 
 	public AccountEntity() {
 		super();
@@ -72,10 +80,18 @@ public class AccountEntity {
 		this.amount = amount;
 	}
 
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
 	@Override
 	public String toString() {
-		return "Account [accountNumber=" + accountNumber + ", accountType=" + accountType + ", accountHolderName="
-				+ accountHolderName + ", amount=" + amount + "]";
+		return "AccountEntity [accountNumber=" + accountNumber + ", accountType=" + accountType + ", accountHolderName="
+				+ accountHolderName + ", amount=" + amount + ", startDate=" + startDate + "]";
 	}
 
 }

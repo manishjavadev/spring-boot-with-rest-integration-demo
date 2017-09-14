@@ -1,5 +1,7 @@
 package com.manish.javadev.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,25 +38,42 @@ public class AccountController {
 
 	}
 
-	@RequestMapping(value = "/account", method = RequestMethod.POST, produces = { MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<AccountEntity> createAccount(@RequestBody AccountEntity accountEntity) {
-		accountEntity = accountService.createAccount(accountEntity);
-		return new ResponseEntity<AccountEntity>(accountEntity, HttpStatus.CREATED);
-	}
-
-	@RequestMapping(value = "/account", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_XML_VALUE,
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<AccountEntity> updateAccount(@RequestBody AccountEntity accountEntity) {
-		accountEntity = accountService.createAccount(accountEntity);
-		return new ResponseEntity<AccountEntity>(accountEntity, HttpStatus.CREATED);
-	}
-
 	@RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<AccountEntity> findAccount(@PathVariable("accountNumber") Long accountNumber) {
 		AccountEntity accountEntity = accountService.findAccount(new Long(accountNumber));
 		return new ResponseEntity<AccountEntity>(accountEntity, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.DELETE, produces = {
+			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<AccountEntity> deleteAccount(@PathVariable("accountNumber") Long accountNumber) {
+		accountService.deleteAccount(new Long(accountNumber));
+		return new ResponseEntity<AccountEntity>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/accounts", method = RequestMethod.GET, produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<AccountEntity>> findAllAccounts() {
+		List<AccountEntity> allAccountList = accountService.findAllAccounts();
+		return new ResponseEntity<List<AccountEntity>>(allAccountList, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/account", method = RequestMethod.POST, produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE }, consumes = { MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<AccountEntity> createAccount(@RequestBody AccountEntity accountEntity) {
+		accountEntity = accountService.createAccount(accountEntity);
+		return new ResponseEntity<AccountEntity>(accountEntity, HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.PUT, produces = {
+			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE }, consumes = {
+					MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<AccountEntity> updateAccount(@PathVariable("accountNumber") Long accountNumber,
+			@RequestBody AccountEntity accountEntity) {
+		accountEntity = accountService.updateAccount(accountNumber, accountEntity);
+		return new ResponseEntity<AccountEntity>(accountEntity, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/fundtransfer/{accountNumberfrom}/{accountNumberto}/{amount}", method = RequestMethod.PUT, produces = {

@@ -1,5 +1,7 @@
 package com.manish.javadev.service;
 
+import java.util.List;
+
 import com.manish.javadev.model.AccountEntity;
 
 /**
@@ -14,4 +16,10 @@ public interface AccountService {
 	public AccountEntity depositAmount(Long accountNumber, Double amount);
 
 	void fundTransfer(Long accountFrom, Long accountTo, Double amount);
+
+	AccountEntity updateAccount(Long accountNumber, AccountEntity accountEntity);
+
+	List<AccountEntity> findAllAccounts();
+
+	void deleteAccount(Long accountNumber);
 }
